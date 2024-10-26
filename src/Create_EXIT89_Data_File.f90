@@ -55,7 +55,7 @@ program Create_EXIT89_Data_File
    ! Body of data file creation
    ! Read in spreadsheet that specifies the arcs and nodes
    ! File names and units
-   character(*), parameter :: INPUT_FILE = 'EXIT89.csv'
+   character(*), parameter :: INPUT_FILE = '../data/EXIT89.csv'
    character(*), parameter :: OUTPUT_FILE = 'exit89.dat'
    integer, parameter :: INPUT_UNIT = 8
    integer, parameter :: OUTPUT_UNIT = 9
