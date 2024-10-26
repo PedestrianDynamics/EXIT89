@@ -16,7 +16,7 @@ EXIT89 requires an IBM-compatible PC with a 386 or higher CPU and at least 4 MB 
 ### 2. Compiling the Code
 
 ```bash
-gfortran -o EXIT8908 Create_EXIT89_Data_File.f90
+gfortran -o EXIT8908 Create_EXIT89_Data_File.f90 Read_Comma_Delimited_File.f90
 ```
 
 This will create an executable file named `EXIT8908`.
