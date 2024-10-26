@@ -43,6 +43,11 @@ program Create_EXIT89_Data_File
    integer :: computed_arcs_value_1, computed_arcs_value_5
    real :: computed_arcs_value_2, computed_arcs_value_3, computed_arcs_value_4
 
+   ! Compute intermediate values for parsing nodes
+   integer :: computed_nodes_value_1, computed_nodes_value_2, computed_nodes_value_4
+   integer :: computed_nodes_value_5, computed_nodes_value_6, computed_nodes_value_7
+   real :: computed_nodes_value_3, computed_nodes_value_8
+      
    ! Operation titles array
    character(29), parameter, dimension(9) :: OP_TITLES = [ &
                                              "UNITS (1-METRIC,2-STD)      =", &
@@ -60,7 +65,7 @@ program Create_EXIT89_Data_File
    ! Read in spreadsheet that specifies the arcs and nodes
    ! File names and units
    character(*), parameter :: INPUT_FILE = '../data/EXIT89.csv'
-   character(*), parameter :: OUTPUT_FILE = 'exit89.dat'
+   character(*), parameter :: OUTPUT_FILE = 'EXIT89.dat'
    integer, parameter :: INPUT_UNIT = 8
    integer, parameter :: OUTPUT_UNIT = 9
 
@@ -187,11 +192,25 @@ program Create_EXIT89_Data_File
                   else if (its_nodes) then
                      if (no_separator_yet) write (OUTPUT_UNIT, 120) '99999   0.0   0.0   0.0  000'
                      no_separator_yet = .false.
-                     write (OUTPUT_UNIT, 110) int(rarray(ir_set, data_columns(1))) - ibase + i_floor*100, &
-                        int(rarray(ir_set, data_columns(2))), &
-                        rarray(ir_set, data_columns(3)), &
-                        (int(rarray(ir_set, data_columns(ic))), ic=4, 7), &
-                        rarray(ir_set, data_columns(8))
+                     ! Define computed values
+                     computed_nodes_value_1 = int(rarray(ir_set, data_columns(1))) - ibase + i_floor * 100
+                     computed_nodes_value_2 = int(rarray(ir_set, data_columns(2)))
+                     computed_nodes_value_3 = rarray(ir_set, data_columns(3))
+                     computed_nodes_value_4 = int(rarray(ir_set, data_columns(4)))
+                     computed_nodes_value_5 = int(rarray(ir_set, data_columns(5)))
+                     computed_nodes_value_6 = int(rarray(ir_set, data_columns(6)))
+                     computed_nodes_value_7 = int(rarray(ir_set, data_columns(7)))
+                     computed_nodes_value_8 = rarray(ir_set, data_columns(8))
+                     ! Write the values to the output
+                     write(OUTPUT_UNIT, 110) computed_nodes_value_1, computed_nodes_value_2, computed_nodes_value_3, &
+                          computed_nodes_value_4, computed_nodes_value_5, computed_nodes_value_6, &
+                          computed_nodes_value_7, computed_nodes_value_8
+                     
+                     ! write (OUTPUT_UNIT, 110) int(rarray(ir_set, data_columns(1))) - ibase + i_floor*100, &
+                     !    int(rarray(ir_set, data_columns(2))), &
+                     !    rarray(ir_set, data_columns(3)), &
+                     !    (int(rarray(ir_set, data_columns(ic))), ic=4, 7), &
+                     !    rarray(ir_set, data_columns(8))
                   end if
                end do
             end do
