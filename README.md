@@ -16,23 +16,31 @@ EXIT89 requires an IBM-compatible PC with a 386 or higher CPU and at least 4 MB 
 ### 2. Compiling the Code
 
 ```bash
-gfortran -o EXIT8908 Create_EXIT89_Data_File.f90 Read_Comma_Delimited_File.f90 Length.f90
+gfortran -o Create_EXIT8908 Create_EXIT89_Data_File.f90 Read_Comma_Delimited_File.f90 Length.f90
 ```
 
-This will create an executable file named `EXIT8908`.
+This will create an executable file named `Create_EXIT8908`.
 
 ### 2. Loading the Software
-To install EXIT89, copy all files into a single directory. The executable file for the model is named `EXIT8908.EXE`.
+To install EXIT89, copy all files into a single directory. The executable file for the model is named `EXIT8908.EXE`. See directory `data`.
 
 ### 3. Example Data Sets
 Included in this repository are example data files for sample scenarios. For instance:
 - **Example 1:** Nighttime Hotel Scenario with Disabled Occupants  
   **Input file:** `UOFUNGT3.DAT`
 
-### 4. Running EXIT89
+> [!TIP]
+> To generate this file, run `Create_EXIT8908`, which is produced by compiling `Create_EXIT89_Data_File.f90`. 
+> This program reads the CSV file located in `data` and creates the required DAT file for executing `EXIT89`.
+
+### 4. Running EXIT89 (MS-Windows only)
 To run the model, follow these steps:
 1. Copy any chosen data file (e.g., `UOFUNGT3.DAT`) into a file named `DPHILTMP.DAT`.
 2. Run the model with this dataset by typing `EXIT8908` at the command prompt.
 3. The output will be saved in a file named `DPHILTMP.OUT`.
 
 If you wish to save the output for future reference, rename `DPHILTMP.OUT` to correspond with the original input file name.
+
+> [!NOTE] 
+> The data directory contains both the executable and the DPHILTMP.DAT file. 
+> To generate the result file, open a terminal, navigate to the data directory with `cd data`, and run `EXIT8908`.
