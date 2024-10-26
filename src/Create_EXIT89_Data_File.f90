@@ -39,6 +39,10 @@ program Create_EXIT89_Data_File
    logical :: its_initialization, no_separator_yet
    logical :: file_exists
 
+   ! Compute intermediate values for parsing arcs
+   integer :: computed_arcs_value_1, computed_arcs_value_5
+   real :: computed_arcs_value_2, computed_arcs_value_3, computed_arcs_value_4
+
    ! Operation titles array
    character(29), parameter, dimension(9) :: OP_TITLES = [ &
                                              "UNITS (1-METRIC,2-STD)      =", &
@@ -100,10 +104,10 @@ program Create_EXIT89_Data_File
       its_nodes = .false.
       czone = carray(ir, ic_zone)
       ibegin = rarray(ir, ic_begin_floor)        ! first floor in set
-      iend = rarray(ir, ic_end_floor)                ! last floor in set
-      ibase = rarray(ir, ic_base_node)                ! base node number for set; others relative to this #
-      columns_found = .false.                                ! true if data columns have been defined for this set
-      needed_columns = 5                                        ! number of data columns for EXIT89 arcs
+      iend = rarray(ir, ic_end_floor)            ! last floor in set
+      ibase = rarray(ir, ic_base_node)           ! base node number for set; others relative to this #
+      columns_found = .false.                    ! true if data columns have been defined for this set
+      needed_columns = 5                         ! number of data columns for EXIT89 arcs
       needed_tag = 'Arc'
       num_in_set = 0
    else if (carray(ir, 1) .eq. 'Nodeset') then
@@ -112,10 +116,10 @@ program Create_EXIT89_Data_File
       its_arcs = .false.
       czone = carray(ir, ic_zone)
       ibegin = rarray(ir, ic_begin_floor)        ! first floor in set
-      iend = rarray(ir, ic_end_floor)                ! last floor in set
-      ibase = rarray(ir, ic_base_node)                ! base node number for set; others relative to this #
-      columns_found = .false.                                ! true if data columns have been defined for this set
-      needed_columns = 8                                        ! number of data columns for EXIT89 nodes
+      iend = rarray(ir, ic_end_floor)            ! last floor in set
+      ibase = rarray(ir, ic_base_node)           ! base node number for set; others relative to this #
+      columns_found = .false.                    ! true if data columns have been defined for this set
+      needed_columns = 8                         ! number of data columns for EXIT89 nodes
       needed_tag = 'Node'
       num_in_set = 0
    else if (carray(ir, 1) .eq. 'Initial') then
@@ -123,7 +127,6 @@ program Create_EXIT89_Data_File
       its_nodes = .false.
       its_arcs = .false.
       needed_columns = 9
-
       ! for both arcs and nodes, data columns are defined with C1, C2, ...
    else if (carray(ir, 2) .eq. 'Columns') then
       do ic = 1, ncol
@@ -138,8 +141,6 @@ program Create_EXIT89_Data_File
       end do
       columns_found = .true.
       tag_found = .false.
-      !write (*,'(a4,a,a12,a,8i3)') needed_tag,' = ',czone(1:length(czone)),' Columns = ',(data_columns(ic),ic=1,needed_columns)
-
       ! Initialization information is fixed format with titles at the beginning
    elseif (its_initialization) then
       if (carray(ir, 2) .eq. 'Title') write (OUTPUT_UNIT, 120) carray(ir, ic_title) (2:80)
@@ -159,28 +160,32 @@ program Create_EXIT89_Data_File
          end if
 
       end if
-
       ! once we know we are looking for arcs or nodes and columns are defined, we can find the full set of arcs or nodes
       ! and replicate them for each floor
-   else if (its_arcs .eqv. .true. .or. its_nodes .eqv. .true.) then
+
+   else if (its_arcs .or. its_nodes) then
       if (columns_found) then
-         if (carray(ir, 2) .eq. needed_tag .and. tag_found .eqv. .false.) then
+         if (carray(ir, 2) .eq. needed_tag .and. .not. tag_found) then
             ir_first_tag = ir
             tag_found = .true.
          else if (carray(ir, 2) .eq. 'Endset') then
-            if (tag_found .eqv. .false.) stop 'No beginning arc or node before Endset'
+            if (.not. tag_found) stop 'No beginning arc or node before Endset'
             ir_last_tag = ir - 1
             ! we found everything we need ...
             ! set floors, columns, first row and last row in set, let's write stuff
-            ! write (9,*) 'Beginning of ',needed_tag,' Zone ',czone(1:length(czone))
+            write (OUTPUT_UNIT, *) 'Beginning of ', needed_tag, ' Zone ', czone(1:length(czone))
             do i_floor = ibegin, iend
                do ir_set = ir_first_tag, ir_last_tag
                   if (its_arcs) then
-                     write (OUTPUT_UNIT, 100) int(rarray(ir_set, data_columns(1))) - ibase + i_floor*100, &
-                        (rarray(ir_set, data_columns(ic)), ic=2, 4), &
-                        int(rarray(ir_set, data_columns(5))) - ibase + i_floor*100
+                     computed_arcs_value_1 = int(rarray(ir_set, data_columns(1))) - ibase + i_floor*100
+                     computed_arcs_value_2 = rarray(ir_set, data_columns(2))
+                     computed_arcs_value_3 = rarray(ir_set, data_columns(3))
+                     computed_arcs_value_4 = rarray(ir_set, data_columns(4))
+                     computed_arcs_value_5 = int(rarray(ir_set, data_columns(5))) - ibase + i_floor*100
+                     ! Write the actual output
+                     write (OUTPUT_UNIT, 100) computed_arcs_value_1, computed_arcs_value_2, computed_arcs_value_3, computed_arcs_value_4
                   else if (its_nodes) then
-                     if (no_separator_yet) write (9, 120) '99999   0.0   0.0   0.0  000'
+                     if (no_separator_yet) write (OUTPUT_UNIT, 120) '99999   0.0   0.0   0.0  000'
                      no_separator_yet = .false.
                      write (OUTPUT_UNIT, 110) int(rarray(ir_set, data_columns(1))) - ibase + i_floor*100, &
                         int(rarray(ir_set, data_columns(2))), &
@@ -196,14 +201,14 @@ program Create_EXIT89_Data_File
    if (ir .lt. nrow) go to 10
    write (OUTPUT_UNIT, 120) '9999 9999'
    close (unit=OUTPUT_UNIT)
-100 format(i5, f6.1, f6.1, f6.1, i5)
-110 format(i5, i5, f6.1, i5, i5, i5, i5, f6.1)
+100 format(i5, f6.1, f6.1, f6.1, i5)  ! For arcs
+110 format(i5, i5, f6.1, i5, i5, i5, i5, f6.1)  ! For nodes
 120 format(a)
 130 format(a29, i1)
 140 format(a29, i2.2)
 150 format(a24, i1, a8, i3)
 160 format(a43, i1)
 170 format(a20, a4, a18, a4)
-   write (*, '(A)') 'The program has finished successfully.'
+   write (*, '(A)') 'The program has finished successfully with output: ', OUTPUT_FILE
 end program Create_EXIT89_Data_File
 
