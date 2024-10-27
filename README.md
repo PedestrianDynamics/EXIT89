@@ -4,7 +4,8 @@
 
 This repository preserves and archives Dr. Fahy's original code, implemented in Fortran, as it was when received by [Dr. Enrico Ronchi](https://orcid.org/0000-0002-2789-6359). While the code remains untested in its current form, our objective is to maintain it in its original state, ensuring Dr. Fahy's contributions to evacuation modeling are accessible for future research and preserved as part of her legacy.
 
-**Note:** The code is currently provided in its original form. While no updates have been made, improvements or adaptations may be considered in the future.
+> [!NOTE]
+>  The code is currently provided in its original form. While no updates have been made, improvements or adaptations may be considered in the future.
 
 ---
 
