@@ -1,4 +1,8 @@
-# EXIT89
+# EXIT89 
+
+[![DOI](https://zenodo.org/badge/878729635.svg)](https://doi.org/10.5281/zenodo.14014021)
+
+
 
 **EXIT89** is an evacuation model developed to simulate the evacuation of large populations from high-rise buildings, initially designed by the late [Dr. Rita F. Fahy](https://en.wikipedia.org/wiki/Rita_Fahy). The model was first published in her work, [*EXIT89: An Evacuation Model for High-Rise Buildings*](http://www.iafss.org/publications/fss/3/815).
 
