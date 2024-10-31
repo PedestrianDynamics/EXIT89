@@ -32,7 +32,7 @@ To install EXIT89, copy all files into a single directory. The executable file f
 ### 3. Example Data Sets
 Included in this repository are example data files for sample scenarios. For instance:
 - **Example 1:** Nighttime Hotel Scenario with Disabled Occupants  
-  **Input file:** `UOFUNGT3.DAT`
+  **Input file:** `DPHILTMP.DAT` (see data)
 
 > [!TIP]
 > To generate this file, run `Create_EXIT8908`, which is produced by compiling `Create_EXIT89_Data_File.f90`. 
