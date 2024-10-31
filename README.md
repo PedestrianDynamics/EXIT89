@@ -36,7 +36,7 @@ Included in this repository are example data files for sample scenarios. For ins
 
 > [!TIP]
 > To generate this file, run `Create_EXIT8908`, which is produced by compiling `Create_EXIT89_Data_File.f90`. 
-> This program reads the CSV file located in `data` and creates the required DAT file for executing `EXIT89`.
+> This program reads the CSV file located in `data` and creates the required `DAT` file for executing `EXIT89`.
 
 ### 4. Running EXIT89 (MS-Windows only)
 To run the model, follow these steps:
@@ -47,5 +47,5 @@ To run the model, follow these steps:
 If you wish to save the output for future reference, rename `DPHILTMP.OUT` to correspond with the original input file name.
 
 > [!NOTE] 
-> The data directory contains both the executable and the DPHILTMP.DAT file. 
+> The data directory contains both the executable and the `DPHILTMP.DAT` file. 
 > To generate the result file, open a terminal, navigate to the data directory with `cd data`, and run `EXIT8908`.
