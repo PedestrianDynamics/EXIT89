@@ -3,8 +3,10 @@
 [![DOI](https://zenodo.org/badge/878729635.svg)](https://doi.org/10.5281/zenodo.14014021)
 
 
+**EXIT89** is an evacuation model developed to simulate the evacuation of large populations from high-rise buildings. 
+It was initially designed by the late [Dr. Rita F. Fahy](https://en.wikipedia.org/wiki/Rita_Fahy) and first introduced in her work, [*EXIT89: An Evacuation Model for High-Rise Buildings*](http://www.iafss.org/publications/fss/3/815). 
 
-**EXIT89** is an evacuation model developed to simulate the evacuation of large populations from high-rise buildings, initially designed by the late [Dr. Rita F. Fahy](https://en.wikipedia.org/wiki/Rita_Fahy). The model was first published in her work, [*EXIT89: An Evacuation Model for High-Rise Buildings*](http://www.iafss.org/publications/fss/3/815).
+The model was developed during her tenure at the [National Fire Protection Association (NFPA)](https://www.nfpa.org/), reflecting her significant contributions to fire safety and evacuation research.
 
 This repository preserves and archives Dr. Fahy's original code, implemented in Fortran, as it was when received by [Dr. Enrico Ronchi](https://orcid.org/0000-0002-2789-6359). While the code remains untested in its current form, our objective is to maintain it in its original state, ensuring Dr. Fahy's contributions to evacuation modeling are accessible for future research and preserved as part of her legacy.
 
